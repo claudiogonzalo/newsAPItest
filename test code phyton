@@ -1,0 +1,80 @@
+import requests
+import json
+
+# Clave de API de Google News
+
+google_news_api_key = "TU_CLAVE_DE_API_AQUI"
+
+# Clave de API de InVideo
+
+invideo_api_key = "TU_CLAVE_DE_API_AQUI"
+
+# URL de la API de Google News
+
+google_news_api_url = "https://newsapi.org/v2/everything"
+
+# Parámetros de la API de Google News
+
+params = {
+
+    "q": "noticias de tecnología",  # Término de búsqueda
+
+    "apiKey": google_news_api_key,
+
+    "language": "es"  # Idioma de las noticias
+
+}
+
+# Realizar la solicitud a la API de Google News
+
+response = requests.get(google_news_api_url, params=params)
+
+# Obtener las noticias de la respuesta
+
+noticias = response.json()["articles"]
+
+# Crear un título y una descripción para el video
+
+titulo = "Noticias de tecnología del día"
+
+descripcion = "Un resumen de las noticias más importantes de tecnología del día"
+
+# Crear un script para el video
+
+script = ""
+
+for noticia in noticias:
+
+    script += f"{noticia['title']}\n{noticia['description']}\n\n"
+
+# URL de la API de InVideo
+
+invideo_api_url = "https://api.invideo.io/v1/videos"
+
+# Parámetros de la API de InVideo
+
+params = {
+
+    "title": titulo,
+
+    "description": descripcion,
+
+    "script": script,
+
+    "template_id": "TU_ID_DE_PLANTILLA_AQUI",  # ID de la plantilla de video
+
+    "api_key": invideo_api_key
+
+}
+
+# Realizar la solicitud a la API de InVideo
+
+response = requests.post(invideo_api_url, json=params)
+
+# Obtener el ID del video creado
+
+video_id = response.json()["id"]
+
+# Imprimir el ID del video creado
+
+print(f"Video creado con ID: {video_id}")
